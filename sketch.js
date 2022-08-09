@@ -338,7 +338,7 @@ function setup() {
   // strokeWeight(sw*M);
   // blendMode(OVERLAY)
 
-  let filter1 = new makeFilter();
+  // let filter1 = new makeFilter();
 
   // tc = R.random_int(1, 20);
 
