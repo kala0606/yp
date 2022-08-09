@@ -381,7 +381,7 @@ function draw() {
 
   translate(WIDTH/2 , HEIGHT/2);
   rotate(PI/2);
-  scale(sf)
+  scale(sf*1.4)
   translate(tc*M, 0);
   
   rotate(PI/2);
@@ -476,7 +476,7 @@ push()
 
   translate(WIDTH/2, HEIGHT/2);
   rotate(PI/2);
-  scale(sf)
+  scale(sf*1.4)
   translate(-tc*M, 0);
   
   rotate(-PI/2);
