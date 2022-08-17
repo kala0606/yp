@@ -179,15 +179,15 @@ function draw() {
   
   smooth();
     
-  push()
-  translate(width/4,0);
-    linger(sf, 0, 0);
-  pop();
+  // push()
+  // translate(width/4,0);
+  //   linger(sf, 0, 0);
+  // pop();
   
-  push()
-  translate(-width/2,0);
-    linger(sf, 0, 0);
-  pop();
+  // push()
+  // translate(-width/2,0);
+  //   linger(sf, 0, 0);
+  // pop();
   
   linger(sf,0,0);
   
