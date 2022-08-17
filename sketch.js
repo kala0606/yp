@@ -69,251 +69,43 @@ class Random {
 }
 let R = new Random(seed);
 
-// ************************************************************************************************************
 
-var DEFAULT_SIZE = 1000;
+let radius = 300;
+// let s = 0;
+  let s2 = 0;
+  let t = 0;
+  let t2 = 0;
+  let lastx = 0;
+  let lasty = 0;
+  let lastz = 0;
+  let noiseval = 0;
+let rans = [];
+// var DIM, M;
 
-// var HEIGHT = 2400;
-var HEIGHT = window.innerHeight;
-// var WIDTH = HEIGHT * 3508 / 4961;
-var WIDTH = window.innerWidth;
-
-var DIM = Math.min(WIDTH, HEIGHT);
-// var DIM = HEIGHT;
-var M = DIM / DEFAULT_SIZE;
-
-// var tc = R.random_int(1,80);
-// var nin = R.random_int(1,200); // noine inverse
-// var zoffi = R.random_num(0.0001, 0.01); // inc noise
-// var es = R.random_int(1*M,20*M); // ellipse size
-// var nd = R.random_int(0,200); //noise disrupt
-// var ai = R.random_num(0.05, 0.01); //angle inc
-// var em = R.random_num(0.5*M, 2*M); //ellipse mid
-// var sw = R.random_num(10, 100); //strokw weight
-// var ip = R.random_num(1, 20); //iplusplus
-// var sf = R.random_num(0.1, 2); //iplusplus
-// var esp = R.random_num(0.3*M, 10*M); //iplusplus
-// var cv = R.random_int(100, 200); //iplusplus
-// var ls = R.random_int(300, 200); //iplusplus
-
-tc = 0//1R.random_int(1,80);
-// nin = 1//R.random_int(1,200); // noine inverse
-
-
-//VARTIATIONS
-
-let V = R.random_int(0,100);
-
-// V = 89;
-
-
-if(V < 5){
-// n1 - No Symmetry
-  nin = R.random_int(1,200); // noine inverse
-  zoffi = R.random_num(0.1, 0.01); // inc noise
-  es = 1*M//R.random_int(1*M,20*M); // ellipse size
-  nd = 10//R.random_int(0,200); //noise disrupt
-  ai = 0.01//R.random_num(0.05, 0.01); //angle inc
-  em = 0.3//R.random_num(0.5*M, 2*M); //line length
-  sw = R.random_num(1, 3); //line length
-  ip = 20//R.random_num(1, 20); //iplusplus
-  sf = R.random_num(6, 8); //iplusplus
-  esp = 0.5*M//R.random_num(0.3*M, 10*M); //iplusplus
-  cv = R.random_int(1000, 200); //iplusplus
-  ls = 0//R.random_int(3, 2); //iplusplus
-  zoffi2 = R.random_num(0.5, 0.001);
-}
-
-if(V >= 5 && V < 15){
-// n2 -big circle
-  nin = 2//R.random_int(1,200); // noine inverse
-  zoffi = R.random_num(0.001, 0.001); // inc noise
-  es = 1*M//R.random_int(1*M,20*M); // ellipse size
-  nd = 100//R.random_int(0,200); //noise disrupt
-  ai = 0.01//R.random_num(0.05, 0.01); //angle inc
-  em = 0.3//R.random_num(0.5*M, 2*M); //line length
-  sw = R.random_num(10, 100); //line length
-  ip = 20//R.random_num(1, 20); //iplusplus
-  sf = R.random_num(2, 4); //iplusplus
-  esp = 0.5*M//R.random_num(0.3*M, 10*M); //iplusplus
-  cv = R.random_int(1000, 200); //iplusplus
-  ls = R.random_int(30, 20); //iplusplus
-  zoffi2 = R.random_num(0.05, 0.001);
-}
-
-if(V >= 15 && V < 20){
-// n3 - No Symmetry
-  nin = 2//R.random_int(1,200); // noine inverse
-  zoffi = R.random_num(0.01, 0.01); // inc noise
-  es = 1*M//R.random_int(1*M,20*M); // ellipse size
-  nd = 100//R.random_int(0,200); //noise disrupt
-  ai = 0.01//R.random_num(0.05, 0.01); //angle inc
-  em = 3//R.random_num(0.5*M, 2*M); //line length
-  sw = R.random_num(10, 50); //line length
-  ip = 20//R.random_num(1, 20); //iplusplus
-  sf = R.random_num(1, 2); //iplusplus
-  esp = 30*M//R.random_num(0.3*M, 10*M); //iplusplus
-  cv = R.random_int(1000, 200); //iplusplus
-  ls = R.random_int(100, 200); //iplusplus
-  zoffi2 = R.random_num(0.5, 0.001);
-}
-
-if(V >= 20 && V < 25){
-//2 - Propah Symmetry Condensed
-nin = 200//R.random_int(1,200); // noine inverse
-zoffi = R.random_num(0.0001, 0.01); // inc noise
-es = 1*M//R.random_int(1*M,20*M); // ellipse size
-nd = 0//R.random_int(0,200); //noise disrupt
-ai = 0.01//R.random_num(0.05, 0.01); //angle inc
-em = 0.3//R.random_num(0.5*M, 2*M); //line length
-sw = R.random_num(10, 20); //line length
-ip = 2//R.random_num(1, 20); //iplusplus
-sf = R.random_num(3, 4); //iplusplus
-esp = R.random_num(1*M, 6*M); //iplusplus
-cv = R.random_int(50, 100); //iplusplus
-ls = R.random_int(3, 2); //iplusplus
-zoffi2 = R.random_num(0.5, 0.001);
-}
-
-if(V >= 25 && V < 35){
-//3 - Propah Symmetry Condensed Stroke Black
-  nin = 500//R.random_int(1,200); // noine inverse
-  zoffi = R.random_num(0.0001, 0.005); // inc noise
-  es = 10*M//R.random_int(1*M,20*M); // ellipse size
-  nd = 0//R.random_int(0,200); //noise disrupt
-  ai = 0.01//R.random_num(0.05, 0.01); //angle inc
-  em = 20//R.random_num(0.5*M, 20*M); //line length
-  sw = 50//R.random_num(10, 100); //line length
-  ip = 20//R.random_num(1, 20); //iplusplus
-  sf = R.random_num(4, 8); //iplusplus
-  esp = R.random_num(1*M, 3*M); //iplusplus
-  cv = R.random_int(100, 200); //iplusplus
-  ls = 30//200//R.random_int(30, 200); //iplusplus
-  zoffi2 = R.random_num(0.5, 0.001);
-}
-
-if(V >= 35 && V < 40){
-  //4 - Propah Symmetry Wide Stroke Black
-  nin = 500//R.random_int(1,200); // noine inverse
-  zoffi = R.random_num(0.0001, 0.005); // inc noise
-  es = 10*M//R.random_int(1*M,20*M); // ellipse size
-  nd = 0//R.random_int(0,200); //noise disrupt
-  ai = 0.01//R.random_num(0.05, 0.01); //angle inc
-  em = 10//R.random_num(0.5*M, 20*M); //line length
-  sw = 20//R.random_num(10, 100); //line length
-  ip = 20//R.random_num(1, 20); //iplusplus
-  sf = R.random_num(8, 10); //iplusplus
-  esp = 5.5*M//R.random_num(0.3*M, 10*M); //iplusplus
-  cv = R.random_int(100, 200); //iplusplus
-  ls = 10//200//R.random_int(30, 200); //iplusplus
-  zoffi2 = R.random_num(0.5, 0.001);
-}
-
-if(V >= 40 && V < 50){
-  // 4 - ASymmetry Wide Stroke Black Zoom
-  nin = 500//R.random_int(1,200); // noine inverse
-  zoffi = R.random_num(0.01, 0.0001); // inc noise
-  es = 10*M//R.random_int(1*M,20*M); // ellipse size
-  nd = 50//R.random_int(0,200); //noise disrupt
-  ai = 0.01//R.random_num(0.05, 0.01); //angle inc
-  em = 1//R.random_num(0.5*M, 20*M); //line length
-  sw = 10//R.random_num(10, 100); //line length
-  ip = 1//R.random_num(1, 20); //iplusplus
-  sf = R.random_num(3, 5); //iplusplus
-  esp = 10*M//R.random_num(0.3*M, 10*M); //iplusplus
-  cv = R.random_int(100, 500); //iplusplus
-  ls = 30//200//R.random_int(30, 200); //iplusplus
-  zoffi2 = R.random_num(0.5, 0.001);
-}
-
-if(V >= 50 && V < 70){
-  // 6 - Semi Symmetry Wide Stroke Black Zoom - Bulk Lifter 1
-  nin = 1//R.random_int(1,200); // noine inverse
-  zoffi = R.random_num(0.003, 0.001); // inc noise
-  es = 10*M//R.random_int(1*M,20*M); // ellipse size
-  nd = 5//R.random_int(0,200); //noise disrupt
-  ai = 0.01//R.random_num(0.05, 0.01); //angle inc
-  em = R.random_num(0.2, 0.6); //line length
-  sw = 10//R.random_num(10, 100); //line length
-  ip = 1//R.random_num(1, 20); //iplusplus
-  sf = R.random_num(2, 4); //iplusplus
-  esp = 1*M//R.random_num(0.3*M, 10*M); //iplusplus
-  cv = R.random_int(40, 300); //iplusplus
-  ls = R.random_int(3, 2); //iplusplus
-  zoffi2 = R.random_num(0.5, 0.001);
-}
-
-if(V >= 80 && V < 90){
-  // 7- Semi Symmetry Wide NoStroke - Bulk Lifter 2
-  nin = 1//R.random_int(1,200); // noine inverse
-  zoffi = R.random_num(0.0001, 0.001); // inc noise
-  es = 1*M//R.random_int(1*M,20*M); // ellipse size
-  nd = R.random_int(0,10); //noise disrupt
-  ai = 0.01//R.random_num(0.05, 0.01); //angle inc
-  em = 0//R.random_num(0.2*M, 0.6*M); //line length
-  sw = R.random_num(1, 10); //line length
-  ip = 1//R.random_num(1, 20); //iplusplus
-  sf = R.random_num(1, 4); //iplusplus
-  esp = 1*M//R.random_num(0.3*M, 10*M); //iplusplus
-  cv = R.random_int(100, 300); //iplusplus
-  ls = R.random_int(3, 2); //iplusplus
-  zoffi2 = R.random_num(0.5, 0.001);
-}
-
-if(V >= 90 && V <= 100){
-  // 8- Asymmetry Wide Stroke Black- 
-  nin = 1//R.random_int(1,200); // noine inverse
-  zoffi = R.random_num(0.01, 0.005); // inc noise
-  es = 10*M//R.random_int(1*M,20*M); // ellipse size
-  nd = R.random_int(0,100); //noise disrupt
-  ai = 0.01//R.random_num(0.05, 0.01); //angle inc
-  em = 1//R.random_num(0.2*M, 0.6*M); //line length
-  sw = 1//R.random_num(10, 100); //line length
-  ip = 1//R.random_num(1, 20); //iplusplus
-  sf = R.random_num(1, 4); //iplusplus
-  esp = R.random_num(5*M, 10*M); //iplusplus
-  cv = R.random_int(100, 300); //iplusplus
-  ls = R.random_int(50, 10); //iplusplus
-  zoffi2 = R.random_num(0.5, 0.001);
-}
-
-
-//
-
-console.log("V :" + V);
-console.log("zoffi :" + zoffi);
-console.log( "es :" + es);
-console.log( "nd :" + nd);
-console.log( "em :" + em);
-console.log( "sw :" + sw);
-console.log( "ip :" + ip);
-console.log( "sf :" + sf);
-console.log( "esp :" + esp);
-console.log( "cv :" + cv);
-console.log( "ls :" + ls);
-
-var zoff = 0;
-let zoff2 = 0;
-let es0 = es;
-
+var res=360;
+let stp=1.0;
+let f=0.0;
+let rd=200;
+let mX,mY;
+let ry,rx,rz, sf, atp, rr;
 
 // ************************************************************************************************************
 let clrLen;
 let whichClr;
 
-let clr0         = [ [240, 19, 77],[255, 111, 94],[245, 240, 227],[64, 191, 193] ];
-let clr1         = [ [51, 48, 228],[246, 55, 236],[251, 180, 84],[250, 234, 72] ];
-let clr2         = [ [71, 0, 216],[153, 0, 240],[249, 0, 191],[255, 133, 179] ];
-let clr3         = [ [255, 225, 98],[255, 100, 100],[145, 196, 131],[238, 238, 238] ];
-let clr4         = [ [238, 238, 238],[56,56,56],[150,150,150],[200,200,200] ];
-let clr5         = [ [255, 0, 117],[23, 39, 116],[119, 217, 112],[238, 238, 238] ];
-let clr6         = [ [77, 119, 255],[86, 187, 241],[94, 230, 235],[242, 250, 90] ];
-let clr7         = [ [59, 0, 0],[255, 0, 0],[255, 149, 197],[255, 246, 205] ];
-let clr8         = [ [140, 0, 0],[189, 32, 0],[250, 30, 14],[255, 190, 15] ];
-let clr9         = [ [47, 196, 178],[18, 148, 127],[231, 20, 20],[241, 120, 8] ];
+let clr0         = [ [81,45,109],[248,72,94],[238,238,238],[0,193,212] ];
+let clr1         = [ [23,23,23],[68,68,68],[218,0,55],[237,237,237] ];
+let clr2         = [ [243,244,237],[83,97,98],[66,70,66],[192,96,20] ];
+let clr3 =         [[0, 0, 0],[255, 255, 255]];
+let clr4         = [ [12,236,221],[255,243,56],[255,103,231],[196,0,255] ];
+let clr5         = [ [0,234,211],[255,245,183],[255,68,159],[0,95,153] ];
+let clr6         = [ [38,0,27],[129,0,52],[255,0,92],[255,246,0] ];
+let clr7         = [ [235,168,58],[187,55,26],[255,248,217],[213,219,179] ];
+let clr8         = [ [75,119,141],[40,181,181],[143,217,168],[210,230,156] ];
+let clr9         = [ [240,217,231],[255,148,204],[162,57,234],[92,51,246] ];
 
 
-let clr1Num      = 100;
+let clr1Num      = 200;
 let clr1Cnt      = -1;
 let clr1Blk;
 let clrA         = [];
@@ -322,27 +114,25 @@ let whichColor;
 
 // ************************************************************************************************************
 
+var DEFAULT_SIZE = 1000
+var WIDTH = window.innerWidth
+var HEIGHT = window.innerHeight
+var DIM = Math.min(WIDTH, HEIGHT)
+var M = DIM / DEFAULT_SIZE
 
-
-// ************************************************************************************************************
 
 function setup() {
-  createCanvas(WIDTH, HEIGHT);
+  createCanvas(WIDTH, HEIGHT, WEBGL);
+  // createCanvas(10000,10000,WEBGL);
+  // DIM = Math.min(width, height);
   noiseSeed(seed);
-
-  // background(RISOCOLORS[R.random_int(1,10)].color);
-  // background(cp1[2].color);
-  // background(230, 195, 0)
-  // background(250,231,218);
-  // background(255);
-  // strokeWeight(sw*M);
-  // blendMode(OVERLAY)
-
-  // let filter1 = new makeFilter();
-
-  // tc = R.random_int(1, 20);
-
-  whichColor = R.random_int(0, 9);
+  // DIM = 10000;
+  // M = DIM / 1000;
+  // frameRate(120);
+  background(0);
+  
+  
+  whichColor = R.random_int(0, 10);
 
 if(whichColor==0)      whichClr = clr0;
 else if(whichColor==1) whichClr = clr1;
@@ -354,233 +144,115 @@ else if(whichColor==6) whichClr = clr6;
 else if(whichColor==7) whichClr = clr7;
 else if(whichColor==8) whichClr = clr8;
 else                   whichClr = clr9;
-
-// whichClr = clr7;
+  
+  // whichClr = clr3;
 
 setColorTables();
+  
+  rx = R.random_num(0,0.005);
+  ry = R.random_num(0,0.005);
+  rz = R.random_num(0,0.005);
+  sf = R.random_num(1, 10);
+  rr = R.random_num(0,TWO_PI)
 
-background(clrA[ floor( ((R.random_int(1,clr1Num)))%clrA.length ) ])
-
-
-  // noStroke();
-  // blendMode(OVERLAY);
-
-  // tc = random(100,400);
-  // tc = 200;
-  // strokeWeight(sw*M)
-  // ellipse(0,0,100)
+background(clrA[ floor( round((R.random_num(0,100)))%clrA.length ) ])
+  
+  for(let i = 0; i <= 600; i++){
+    if(i%2==0){
+    rans[i] = R.random_int(1,10);
+    }
+    else rans[i] = R.random_int(10,150);
+  }
   
 }
 
 function draw() {
-
- 
-
-  push();
-
-
-  translate(WIDTH/2 , HEIGHT/2);
-  rotate(PI);
-  scale(sf*1.4)
-  translate(tc*M, 0);
+  scale(0.7)
   
-  // rotate(PI/2);
-
+  ambientLight(500);
+  directionalLight(255, 255, 255, 0, 0, -1000*M);
   
   
-  // var zoff = 0;
-
-  noFill()
+  rotateY((noise(frameCount * ry)));
+  rotateX((noise(frameCount * rx)));
+  rotateZ((noise(frameCount * rz)));
   
-
-  
-  for(let i = 1; i < 10; i+=ip){
-    // stroke(RISOCOLORS[int(random(10))].color);
-    // fill(cp1[int(random(4))].color);
-    beginShape()
-    // let c = clrA[ floor( ((frameCount)*cv)%clrA.length ) ]; 
-    // let ca = map(es, 0, esp*200, 20, 255);
-    // c.setAlpha(ca)
-    // stroke(c);
-    // strokeWeight(map(es, 0, esp*200, 0*M, sw*M));
-  
-  // zoff = 0;
-    for(let a = 0; a < PI; a+=ai){
-  
-        const h = map(a, 0, PI, 0, 1);
-        const r =
-        map(1 / sin(a), -1, 1, 0, es * (i)) +
-        (noise(zoff)*es)/(nin*M) +
-        (noise(zoff)*(nd*M));
-  
-        let x = r * cos(a);
-        let y = r * sin(a);
-  
-        let vw = map(x, r*cos(0), r*cos(PI), 0, PI); // variable WIDTH
-        const lw = sin((h))*cos(vw)*ls*M; // line WIDTH
-  
-        zoff+=zoffi;
-        // stroke(RISOCOLORS[int(random(10))].color);
-        // line(WIDTH/2-lw,a, WIDTH/2+lw,a);
-        // strokeWeight(1)
-        // ellipse(x,y,es/i*M)
-        // strokeWeight(map(es*a, 0, esp*200, 0*M, sw*M));
-        let c = clrA[ floor( (noise(zoff)*cv)%clrA.length ) ]; 
-        let ca = map(es, es0, esp*200, 20, 255);
-        c.setAlpha(ca)
-        stroke(c);
-        strokeWeight(noise(zoff)*sw*M)
-  
-        vertex(x,y);
-  
-        // if((a*1000)%(5)==0){
-        line(x,y, x, y+noise(zoff)*ls*M);
-        // }
-        
-  
-        push()
-        fill(0);
-        noStroke();
-        // square(x,y, em/i);
-        ellipse(x,y,(em*M)/i)
-        pop()
-        // noFill();
-        // fill(0)
-        // ellipse(x,y,5*M);
-        // noFill();
-        // ellipse(x,y,es/i*M)
-        // strokeWeight(es/i*M);
-        // line(x,y,x , y+ ll); 
-  
-  
-        
-  
-        // point(x,y);
-    }
-    // zoff -= zoffi*PI/ai- zoffi2;
-
-    endShape();
-    }
-  
+  smooth();
     
-    // vertex(WIDTH/2, 0);
-    // vertex(-WIDTH/2, -HEIGHT/2);
-    
-  pop()
+  push()
+  translate(width/4,0);
+    linger(sf, 0, 0);
+  pop();
   
-
-
-push()
-
-
-
-  translate(WIDTH/2, HEIGHT/2);
-  // rotate(PI/2);
-  scale(sf*1.4)
-  translate(-tc*M, 0);
+  push()
+  translate(-width/2,0);
+    linger(sf, 0, 0);
+  pop();
   
-  // rotate(-PI/2);
-
-  noFill()
+  linger(sf,0,0);
   
-
-  // zoff = 0;
-  for(let i = 1; i < 10; i+=ip){
-  // stroke(RISOCOLORS[int(random(10))].color);
-  // fill(cp1[int(random(4))].color);
-  beginShape()
-  // let c = clrA[ floor( ((frameCount)*cv)%clrA.length ) ]; 
-  // let ca = map(es, 0, esp*200, 20, 255);
-  // c.setAlpha(ca)
-  // stroke(c);
-  // strokeWeight(map(es, 0, esp*200, 0*M, sw*M));
-
-  
-
-  for(let a = 0; a < PI; a+=ai){
-
-      const h = map(a, 0, PI, 0, 1);
-      const r =
-      map(1 / sin(a), -1, 1, 0, es * (i)) +
-      (noise(zoff)*es)/(nin*M) +
-      (noise(zoff)*(nd*M));
-
-      let x = r * cos(a);
-      let y = r * sin(a);
-
-      let vw = map(x, r*cos(0), r*cos(PI), 0, PI); // variable WIDTH
-      const lw = sin((h))*cos(vw)*ls*M; // line WIDTH
-
-      zoff+=zoffi;
-      // stroke(RISOCOLORS[int(random(10))].color);
-      // line(WIDTH/2-lw,a, WIDTH/2+lw,a);
-      // strokeWeight(1)
-      // ellipse(x,y,es/i*M)
-      // strokeWeight(map(es*a, 0, esp*200, 0*M, sw*M));
-      let c = clrA[ floor( (noise(zoff)*cv)%clrA.length ) ]; 
-      let ca = map(es, es0, esp*200, 20, 255);
-      c.setAlpha(ca)
-      stroke(c);
-      strokeWeight(noise(zoff)*sw*M)
-
-      vertex(x,y);
-
-      // if((a*1000)%(5)==0){
-      line(x,y, x, y+noise(zoff)*ls*M);
-      // }
-      
-
-      push()
-      fill(0);
-      noStroke();
-      // square(x,y, em/i);
-      ellipse(x,y,(em*M)/i)
-      pop()
-      // noFill();
-      // fill(0)
-      // ellipse(x,y,5*M);
-      // noFill();
-      // ellipse(x,y,es/i*M)
-      // strokeWeight(es/i*M);
-      // line(x,y,x , y+ ll); 
-
-
-      
-
-      // point(x,y);
+  if(frameCount >= 600){
+    noLoop();
+    stop();
   }
-  // zoff -= zoffi*PI/ai- zoffi2;
-  endShape();
-  }
-
   
-  // vertex(WIDTH/2, 0);
-  // vertex(-WIDTH/2, -HEIGHT/2);
-  
-pop()
-
-
-  
-
-
-  
-  
-  // tc+=1
-  es+=(esp);
-
-  if(frameCount == 200){
-    // image(overAllTexture, 0, 0);
-    //  noFill();
-    //  stroke("#FFFFFF");
-    //  strokeWeight(0);
-    //  rect(0, 0, width, height);
-     noLoop();
-    //  redraw();
-  }
-  // noLoop();
 }
 
-// ************************************************************************************************************
+
+  
+
+function linger(as, at, s){
+  radius = 100*M;
+  while (at<=600) {
+    noiseval += 0.00001;
+    s += as;
+    at += 1;
+    let radianS = radians(s);
+    let radianT = radians(at);
+    let br = map(frameCount, 1, 600, rans[at]*M, 0*M);
+    
+    radius = map(radius, 0, radius, DIM/8, DIM)
+             + map(rans[at]*M, 10, 100, 0, DIM/8);
+    let thisx = 0 + (radius * cos(radianS) * sin(radianT));
+    let thisy = 0 + (radius * sin(radianS) * sin(radianT));
+    let thisz = 0 + (radius * cos(radianT));
+    if (lastx != 1) {
+
+      stroke(clrA[ floor( (frameCount) % clrA.length ) ]);
+      strokeWeight(0.1*M);
+      
+      push();
+      translate(lastx, lasty , lastz );
+      rotateX(sin(noiseval));
+      rotateY(sin(noiseval));
+      ambientMaterial(clrA[ floor( at % clrA.length ) ]);
+      if(at % 3 == 0){
+        box(br);
+      }
+      else if (at % 2 == 0 ){
+        box(br, br);
+      }
+      else if (at%5 == 0){
+        box(br/2, br/2);
+      }
+      else{
+        box(br/10, br/10)
+      }
+      
+          box(br/5
+                )
+
+      pop();
+      
+    }
+    lastx = thisx;
+    lasty = thisy;
+    lastz = thisz;
+    
+  }
+  
+}
+
 
 function setColorTables() {
   clrLen = whichClr.length;
@@ -593,41 +265,3 @@ function setColorTables() {
   }
 }
 
-function makeFilter() {
-  randomSeed(seed);
-  // noiseのフィルターをつくる\
-  push()
-  colorMode(HSB, 360, 100, 100, 100);
-  drawingContext.shadowColor = color(0, 0, 5, 5);
-  overAllTexture = createGraphics(windowWidth, windowHeight);
-  overAllTexture.loadPixels();
-  for (var i = 0; i < width; i++) {
-    for (var j = 0; j < height; j++) {
-      overAllTexture.set(
-        i,
-        j,
-        color(0, 0, 100, noise(i , j , (i * j) / 50) * random(10, 25))
-      );
-    }
-  }
-  overAllTexture.updatePixels();
-  pop()
-}
-
-function nline(x, y, x1, y1){
-  
-  for(let i = y; i < y1; i+=10){
-    let c = clrA[ floor( (noise(zoff)*cv)%clrA.length ) ];
-    let ca = map(es, 0, esp*200, 20, 255);
-    c.setAlpha(ca)
-    fill(c);
-    ellipse(x, i, noise(zoff2)*10);
-    zoff2+=0.1;
-  }
-}
-
-function customNoise(value) {
-  let count = int((value % 12));
-  let retValue = pow(sin(value), (1));
-  return retValue;
-}
