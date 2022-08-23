@@ -118,18 +118,20 @@ var DEFAULT_SIZE = 1000
 var WIDTH = window.innerWidth
 var HEIGHT = window.innerHeight
 var DIM = Math.min(WIDTH, HEIGHT)
-var M = DIM / DEFAULT_SIZE
+var M = DIM / DEFAULT_SIZE;
+let c;
 
 
 function setup() {
   createCanvas(WIDTH, HEIGHT, WEBGL);
-  // createCanvas(10000,10000,WEBGL);
-  // DIM = Math.min(width, height);
+  // c = createCanvas(59187,45997,WEBGL);
+  DIM = Math.min(WIDTH, HEIGHT);
   noiseSeed(seed);
-  // DIM = 10000;
-  // M = DIM / 1000;
+  // DIM = 45997;
+  M = DIM / 1000;
   // frameRate(120);
-  background(0);
+  // background(0);
+  // pixelDensity(10);
   
   
   whichColor = R.random_int(0, 10);
@@ -149,56 +151,77 @@ else                   whichClr = clr9;
 
 setColorTables();
   
-  rx = R.random_num(0,0.005);
-  ry = R.random_num(0,0.005);
-  rz = R.random_num(0,0.005);
-  sf = R.random_num(1, 10);
+  rx = R.random_num(0.005,0.0005);
+  ry = R.random_num(0.005,0.0005);
+  rz = R.random_num(0.005,0.0005);
+  sf = R.random_num(10, 50);
   rr = R.random_num(0,TWO_PI)
+  ss = R.random_num(0,10) // small cube
+  bs = R.random_num(50,200) // big cube
+
+  console.log("rx ",rx);
+  console.log("ry ",ry);
+  console.log("rz ",rz);
+  console.log("sf ",sf);
+  console.log("rr ",rr);
+  
+  
 
 background(clrA[ floor( round((R.random_num(0,100)))%clrA.length ) ])
-  
+  // background(0);
+
   for(let i = 0; i <= 600; i++){
     if(i%2==0){
-    rans[i] = R.random_int(1,10);
+    rans[i] = R.random_int(1, ss);
     }
-    else rans[i] = R.random_int(10,150);
+    else rans[i] = R.random_int(10, bs);
   }
   
 }
 
 function draw() {
-  scale(0.7)
+  // scale(1.1)
   
   ambientLight(500);
   directionalLight(255, 255, 255, 0, 0, -1000*M);
-  
   
   rotateY((noise(frameCount * ry)));
   rotateX((noise(frameCount * rx)));
   rotateZ((noise(frameCount * rz)));
   
+  
   smooth();
     
   push()
-  translate(width/4,0);
+  translate(500*M,0);
     linger(sf, 0, 0);
   pop();
   
   push()
-  translate(-width/2,0);
+  translate(-500*M,0);
     linger(sf, 0, 0);
   pop();
   
   linger(sf,0,0);
+
   
-  if(frameCount >= 600){
+  
+  if(frameCount >= 400){
     noLoop();
-    stop();
+    // saveForPrint("sketch.jpg", "A3", 300);
+
+    print("done")
+
+    // stop();
+    
   }
   
 }
 
-
+function keyPressed(){
+  if (keyCode === 55) {
+      saveCanvas(c, 'myCanvas', 'jpg');  } 
+}
   
 
 function linger(as, at, s){
@@ -209,22 +232,24 @@ function linger(as, at, s){
     at += 1;
     let radianS = radians(s);
     let radianT = radians(at);
-    let br = map(frameCount, 1, 600, rans[at]*M, 0*M);
+    let br = map(frameCount, 1, 400, rans[at]*M, 0*M);
     
     radius = map(radius, 0, radius, DIM/8, DIM)
-             + map(rans[at]*M, 10, 100, 0, DIM/8);
+            //  + map(rans[at]*M, 10, 100, 0, DIM/8);
     let thisx = 0 + (radius * cos(radianS) * sin(radianT));
     let thisy = 0 + (radius * sin(radianS) * sin(radianT));
     let thisz = 0 + (radius * cos(radianT));
-    if (lastx != 1) {
+    
 
       stroke(clrA[ floor( (frameCount) % clrA.length ) ]);
+      // stroke(0)
       strokeWeight(0.1*M);
       
       push();
-      translate(lastx, lasty , lastz );
+      translate(thisx, thisy , thisz );
       rotateX(sin(noiseval));
       rotateY(sin(noiseval));
+      rotateZ(sin(noiseval));
       ambientMaterial(clrA[ floor( at % clrA.length ) ]);
       if(at % 3 == 0){
         box(br);
@@ -244,7 +269,7 @@ function linger(as, at, s){
 
       pop();
       
-    }
+    
     lastx = thisx;
     lasty = thisy;
     lastz = thisz;
