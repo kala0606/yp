@@ -151,9 +151,9 @@ else                   whichClr = clr9;
 
 setColorTables();
   
-  rx = R.random_num(0.005,0.0005);
-  ry = R.random_num(0.005,0.0005);
-  rz = R.random_num(0.005,0.0005);
+  rx = R.random_num(0, 3);
+  ry = R.random_num(0, 3);
+  rz = R.random_num(0, 3);
   sf = R.random_num(10, 50);
   rr = R.random_num(0,TWO_PI)
   ss = R.random_num(0,10) // small cube
@@ -180,14 +180,14 @@ background(clrA[ floor( round((R.random_num(0,100)))%clrA.length ) ])
 }
 
 function draw() {
-  // scale(1.1)
+  scale(0.6)
   
   ambientLight(500);
   directionalLight(255, 255, 255, 0, 0, -1000*M);
-  
-  rotateY((noise(frameCount * ry)));
-  rotateX((noise(frameCount * rx)));
-  rotateZ((noise(frameCount * rz)));
+
+  rotateY((noise(frameCount/100) * ry));
+  rotateX((noise(frameCount/100) * rx));
+  rotateZ((noise(frameCount/100) * rz));
   
   
   smooth();
@@ -227,7 +227,7 @@ function keyPressed(){
 function linger(as, at, s){
   radius = 100*M;
   while (at<=600) {
-    noiseval += 0.00001;
+    noiseval += 0.00001 * rx;
     s += as;
     at += 1;
     let radianS = radians(s);
