@@ -151,9 +151,9 @@ else                   whichClr = clr9;
 
 setColorTables();
   
-  rx = R.random_num(0, 3);
-  ry = R.random_num(0, 3);
-  rz = R.random_num(0, 3);
+  rx = R.random_num(0, 1);
+  ry = R.random_num(0, 1);
+  rz = R.random_num(0, 1);
   sf = R.random_num(10, 50);
   rr = R.random_num(0,TWO_PI)
   ss = R.random_num(0,10) // small cube
