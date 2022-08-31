@@ -199,7 +199,7 @@ background(clrA[ floor( 0 ) ])
 }
 
 function draw() {
-  scale(0.85)
+  scale(0.75)
   
   ambientLight(100);
   directionalLight(255, 255, 255, 0, 0, -1000*M);
