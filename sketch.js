@@ -89,6 +89,9 @@ let rd=200;
 let mX,mY;
 let ry,rx,rz, sf, atp, rr;
 
+const flock = [];
+let alignSlider, cohesionSlider, separationSlider;
+
 // ************************************************************************************************************
 let clrLen;
 let whichClr;
@@ -129,9 +132,30 @@ function setup() {
   noiseSeed(seed);
   // DIM = 45997;
   M = DIM / 1000;
-  // frameRate(120);
-  // background(0);
-  // pixelDensity(10);
+  
+  alignSlider = createSlider(0, 20, R.random_num(0, 2), 0.1);
+  cohesionSlider = createSlider(0, 1, 0.1, 0.1);
+  separationSlider = createSlider(0, 20, R.random_num(0, 2), 0.1);
+
+  sf = R.random_int(25, 100);
+  bs = R.random_int(15, 100);
+  cpr = 24//R.random_int(1, 50);
+  spr = 25//R.random_int(1, 50);
+  apr = R.random_int(30, 200);
+  mf = 0.2//R.random_int(0, 0.5);
+
+  for(let i = 0; i <= sf; i++){
+    if(i%2==0){
+    rans[i] = R.random_int(1, bs);
+    }
+    else rans[i] = R.random_int(10, bs);
+  }
+
+  for (let i = 0; i < sf; i++) {
+    let br = rans[i]//map(i, 1, 200, rans[i]*M, 0*M);
+    flock.push(new Boid(br));
+  }
+
   
   
   whichColor = R.random_int(0, 10);
@@ -147,17 +171,17 @@ else if(whichColor==7) whichClr = clr7;
 else if(whichColor==8) whichClr = clr8;
 else                   whichClr = clr9;
   
-  // whichClr = clr3;
+  // whichClr = clr5;
 
 setColorTables();
   
   rx = R.random_num(0, 1);
   ry = R.random_num(0, 1);
   rz = R.random_num(0, 1);
-  sf = R.random_num(10, 50);
+  
   rr = R.random_num(0,TWO_PI)
   ss = R.random_num(0,10) // small cube
-  bs = R.random_num(50,200) // big cube
+  bs = R.random_num(50,100) // big cube
 
   console.log("rx ",rx);
   console.log("ry ",ry);
@@ -167,46 +191,37 @@ setColorTables();
   
   
 
-background(clrA[ floor( round((R.random_num(0,100)))%clrA.length ) ])
+background(clrA[ floor( 0 ) ])
   // background(0);
 
-  for(let i = 0; i <= 600; i++){
-    if(i%2==0){
-    rans[i] = R.random_int(1, ss);
-    }
-    else rans[i] = R.random_int(10, bs);
-  }
+  
   
 }
 
 function draw() {
-  scale(0.6)
+  scale(0.85)
   
-  ambientLight(500);
+  ambientLight(100);
   directionalLight(255, 255, 255, 0, 0, -1000*M);
 
-  rotateY((noise(frameCount/100) * ry));
-  rotateX((noise(frameCount/100) * rx));
-  rotateZ((noise(frameCount/100) * rz));
+  // rotateY((noise(frameCount/100) * ry));
+  // rotateX((noise(frameCount/100) * rx));
+  // rotateZ((noise(frameCount/100) * rz));
   
   
   smooth();
+  translate(-WIDTH/2, -HEIGHT/2)
     
-  push()
-  translate(500*M,0);
-    linger(sf, 0, 0);
-  pop();
-  
-  push()
-  translate(-500*M,0);
-    linger(sf, 0, 0);
-  pop();
-  
-  linger(sf,0,0);
+  for (let boid of flock) {
+    boid.edges();
+    boid.flock(flock);
+    boid.update();
+    boid.show();
+  }  
 
   
   
-  if(frameCount >= 400){
+  if(frameCount >= 190*2){
     noLoop();
     // saveForPrint("sketch.jpg", "A3", 300);
 
@@ -289,4 +304,127 @@ function setColorTables() {
     clrA.push(  lerpColor( _c1, _c2, map(i, (clr1Cnt*clr1Blk), (((clr1Cnt+1))*clr1Blk), 0.0, 1.0) ) );
   }
 }
+
+class Boid {
+  constructor(br) {
+    this.position = createVector(random(width), random(height));
+    this.velocity = p5.Vector.random2D();
+    this.velocity.setMag(random(2, 4)*M);
+    this.acceleration = createVector();
+    this.maxForce = mf*M;
+    this.maxSpeed = 5*M;
+    this.size = br*M;
+  }
+
+  edges() {
+    if (this.position.x > width) {
+      this.position.x = 0;
+    } else if (this.position.x < 0) {
+      this.position.x = width;
+    }
+    if (this.position.y > height) {
+      this.position.y = 0;
+    } else if (this.position.y < 0) {
+      this.position.y = height;
+    }
+  }
+
+  align(boids) {
+    let perceptionRadius = apr;
+    let steering = createVector();
+    let total = 0;
+    for (let other of boids) {
+      let d = dist(this.position.x, this.position.y, other.position.x, other.position.y);
+      if (other != this && d < perceptionRadius) {
+        steering.add(other.velocity);
+        total++;
+      }
+    }
+    if (total > 0) {
+      steering.div(total);
+      steering.setMag(this.maxSpeed);
+      steering.sub(this.velocity);
+      steering.limit(this.maxForce);
+    }
+    return steering;
+  }
+
+  separation(boids) {
+    let perceptionRadius = spr;
+    let steering = createVector();
+    let total = 0;
+    for (let other of boids) {
+      let d = dist(this.position.x, this.position.y, other.position.x, other.position.y);
+      if (other != this && d < perceptionRadius) {
+        let diff = p5.Vector.sub(this.position, other.position);
+        diff.div(d * d);
+        steering.add(diff);
+        total++;
+      }
+    }
+    if (total > 0) {
+      steering.div(total);
+      steering.setMag(this.maxSpeed);
+      steering.sub(this.velocity);
+      steering.limit(this.maxForce);
+    }
+    return steering;
+  }
+
+  cohesion(boids) {
+    let perceptionRadius = cpr;
+    let steering = createVector();
+    let total = 0;
+    for (let other of boids) {
+      let d = dist(this.position.x, this.position.y, other.position.x, other.position.y);
+      if (other != this && d < perceptionRadius) {
+        steering.add(other.position);
+        total++;
+      }
+    }
+    if (total > 0) {
+      steering.div(total);
+      steering.sub(this.position);
+      steering.setMag(this.maxSpeed);
+      steering.sub(this.velocity);
+      steering.limit(this.maxForce);
+    }
+    return steering;
+  }
+
+  flock(boids) {
+    let alignment = this.align(boids);
+    let cohesion = this.cohesion(boids);
+    let separation = this.separation(boids);
+
+    alignment.mult(alignSlider.value());
+    cohesion.mult(cohesionSlider.value());
+    separation.mult(separationSlider.value());
+
+    this.acceleration.add(alignment);
+    this.acceleration.add(cohesion);
+    this.acceleration.add(separation);
+  }
+
+  update() {
+    this.position.add(this.velocity);
+    this.velocity.add(this.acceleration);
+    this.velocity.limit(this.maxSpeed);
+    this.acceleration.mult(0);
+    // this.size = map(this.size, 1, 200, this.size, 0);;
+  }
+
+  show() {
+    strokeWeight(0);
+    stroke(0);
+    push();
+    fill(clrA[ floor( (frameCount+this.size*10) % clrA.length ) ])
+    translate(this.position.x, this.position.y);
+    rotate(frameCount/50);
+    // sphere(sin(frameCount/60)*this.size*2);
+    box(sin(frameCount/120)*this.size);
+    pop();
+  }
+}
+
 
