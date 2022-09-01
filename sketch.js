@@ -70,15 +70,15 @@ class Random {
 let R = new Random(seed);
 
 
-let radius = 300;
-// let s = 0;
-  let s2 = 0;
-  let t = 0;
-  let t2 = 0;
-  let lastx = 0;
-  let lasty = 0;
-  let lastz = 0;
-  let noiseval = 0;
+// let radius = 300;
+// // let s = 0;
+//   let s2 = 0;
+//   let t = 0;
+//   let t2 = 0;
+//   let lastx = 0;
+//   let lasty = 0;
+//   let lastz = 0;
+//   let noiseval = 0;
 let rans = [];
 // var DIM, M;
 
@@ -118,31 +118,108 @@ let whichColor;
 // ************************************************************************************************************
 
 var DEFAULT_SIZE = 1000
-var WIDTH = window.innerWidth
+// var WIDTH = window.innerWidth
 var HEIGHT = window.innerHeight
+var WIDTH = HEIGHT*0.707
 var DIM = Math.min(WIDTH, HEIGHT)
 var M = DIM / DEFAULT_SIZE;
 let c;
+let V;
 
 
 function setup() {
-  createCanvas(WIDTH, HEIGHT, WEBGL);
+  
   // c = createCanvas(59187,45997,WEBGL);
   DIM = Math.min(WIDTH, HEIGHT);
+  createCanvas(WIDTH, HEIGHT, WEBGL);
   noiseSeed(seed);
   // DIM = 45997;
   M = DIM / 1000;
+  V = R.random_int(0, 50);
   
-  alignSlider = createSlider(0, 20, R.random_num(0, 2), 0.1);
-  cohesionSlider = createSlider(0, 1, 0.1, 0.1);
-  separationSlider = createSlider(0, 20, R.random_num(0, 2), 0.1);
+  // alignSlider = createSlider(0, 20, R.random_num(0, 2), 0.1);
+  // cohesionSlider = createSlider(0, 1, 0.1, 0.1);
+  // separationSlider = createSlider(0, 20, R.random_num(0, 2), 0.1);
 
-  sf = R.random_int(25, 100);
-  bs = R.random_int(15, 100);
-  cpr = 24//R.random_int(1, 50);
-  spr = 25//R.random_int(1, 50);
-  apr = R.random_int(30, 200);
-  mf = 0.2//R.random_int(0, 0.5);
+  if(V<10) //Drinkers and Smokers
+  {
+    sf = R.random_int(20, 100);
+    bs = R.random_int(15, 100);
+    
+    cpr = 24
+    spr = 25
+    apr = 30;
+
+    av = 3;
+    cv = 0.1;
+    sv = 0.1;
+
+    mf = 0.2
+  }
+
+  if(V>=10 && V < 20) //Forbidden Sectors
+  {
+    sf = R.random_int(20, 100);
+    bs = R.random_int(15, 20);
+    
+    cpr = 24
+    spr = 25
+    apr = 30;
+
+    av = R.random_num(0,1);
+    cv = 0.1;
+    sv = 0.1;
+
+    mf = 0.2
+  }
+
+  if(V>=20 && V < 30) //Armageddon
+  {
+    sf = R.random_int(80, 100);
+    bs = R.random_int(85, 100);
+    
+    cpr = 24
+    spr = 25
+    apr = 30;
+
+    av = R.random_num(0,1);
+    cv = 0.1;
+    sv = 0.1;
+
+    mf = 0.2
+  }
+
+  if(V>=30 && V < 40) //Chase Sequence
+  {
+    sf = R.random_int(20, 100);
+    bs = R.random_int(25, 40);
+    
+    cpr = 24
+    spr = 25
+    apr = R.random_int(30,200);
+
+    av = R.random_num(0,1);
+    cv = 2;
+    sv = 10;
+
+    mf = 0.2
+  }
+
+  if(V>=40 && V <= 50) //Family Business
+  {
+    sf = R.random_int(80, 100);
+    bs = R.random_int(85, 100);
+    
+    cpr = 100
+    spr = 25
+    apr = 50;
+
+    av = R.random_num(0,1);
+    cv = 1;
+    sv = 0.1;
+
+    mf = 0.2
+  }
 
   for(let i = 0; i <= sf; i++){
     if(i%2==0){
@@ -183,15 +260,15 @@ setColorTables();
   ss = R.random_num(0,10) // small cube
   bs = R.random_num(50,100) // big cube
 
-  console.log("rx ",rx);
-  console.log("ry ",ry);
-  console.log("rz ",rz);
-  console.log("sf ",sf);
-  console.log("rr ",rr);
+  // console.log("rx ",rx);
+  // console.log("ry ",ry);
+  // console.log("rz ",rz);
+  // console.log("sf ",sf);
+  console.log("V ",V);
   
   
 
-background(clrA[ floor( 0 ) ])
+background(clrA[ floor( R.random_int(0,3)*50 ) ])
   // background(0);
 
   
@@ -202,7 +279,7 @@ function draw() {
   scale(0.75)
   
   ambientLight(100);
-  directionalLight(255, 255, 255, 0, 0, -1000*M);
+  directionalLight(255, 255, 255, 0, 0, -DIM*M);
 
   // rotateY((noise(frameCount/100) * ry));
   // rotateX((noise(frameCount/100) * rx));
@@ -307,30 +384,36 @@ function setColorTables() {
 
 class Boid {
   constructor(br) {
-    this.position = createVector(random(width), random(height));
-    this.velocity = p5.Vector.random2D();
-    this.velocity.setMag(random(2, 4)*M);
+    this.position = createVector(map(R.random_num(0,1), 0,1, 0, WIDTH), map(R.random_num(0,1), 0,1, 0, HEIGHT));
+    // this.velocity = p5.Vector.random2D();
+    this.velocity = createVector();
+    let angle = R.random_num(0,1) * TWO_PI;
+    let length = 1*M;
+    this.velocity.x = length * Math.cos(angle); 
+    this.velocity.y = length * Math.sin(angle);
+    this.velocity.z = length * Math.sin(angle);
+    this.velocity.setMag(R.random_num(2, 4) * M);
     this.acceleration = createVector();
-    this.maxForce = mf*M;
-    this.maxSpeed = 5*M;
-    this.size = br*M;
+    this.maxForce = mf * M;
+    this.maxSpeed = 5 * M;
+    this.size = br * M;
   }
 
   edges() {
-    if (this.position.x > width) {
+    if (this.position.x > WIDTH) {
       this.position.x = 0;
     } else if (this.position.x < 0) {
-      this.position.x = width;
+      this.position.x = WIDTH;
     }
-    if (this.position.y > height) {
+    if (this.position.y > HEIGHT) {
       this.position.y = 0;
     } else if (this.position.y < 0) {
-      this.position.y = height;
+      this.position.y = HEIGHT;
     }
   }
 
   align(boids) {
-    let perceptionRadius = apr;
+    let perceptionRadius = apr*M;
     let steering = createVector();
     let total = 0;
     for (let other of boids) {
@@ -350,7 +433,7 @@ class Boid {
   }
 
   separation(boids) {
-    let perceptionRadius = spr;
+    let perceptionRadius = spr*M;
     let steering = createVector();
     let total = 0;
     for (let other of boids) {
@@ -372,7 +455,7 @@ class Boid {
   }
 
   cohesion(boids) {
-    let perceptionRadius = cpr;
+    let perceptionRadius = cpr*M;
     let steering = createVector();
     let total = 0;
     for (let other of boids) {
@@ -397,9 +480,9 @@ class Boid {
     let cohesion = this.cohesion(boids);
     let separation = this.separation(boids);
 
-    alignment.mult(alignSlider.value());
-    cohesion.mult(cohesionSlider.value());
-    separation.mult(separationSlider.value());
+    alignment.mult(av);
+    cohesion.mult(cv);
+    separation.mult(sv);
 
     this.acceleration.add(alignment);
     this.acceleration.add(cohesion);
@@ -418,7 +501,7 @@ class Boid {
     strokeWeight(0);
     stroke(0);
     push();
-    fill(clrA[ floor( (frameCount+this.size*10) % clrA.length ) ])
+    fill(clrA[ floor( (frameCount) % clrA.length ) ])
     translate(this.position.x, this.position.y);
     rotate(frameCount/50);
     // sphere(sin(frameCount/60)*this.size*2);
