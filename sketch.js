@@ -118,9 +118,9 @@ let whichColor;
 // ************************************************************************************************************
 
 var DEFAULT_SIZE = 1000
-// var WIDTH = window.innerWidth
+var WIDTH = window.innerWidth
 var HEIGHT = window.innerHeight
-var WIDTH = HEIGHT*0.707
+// var WIDTH = HEIGHT*0.707
 var DIM = Math.min(WIDTH, HEIGHT)
 var M = DIM / DEFAULT_SIZE;
 let c;
