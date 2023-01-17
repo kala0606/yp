@@ -112,7 +112,6 @@ let set_ss;    //stroke size
 let set_as;    //animation speed
 
 let zoff = 0;
-let ov; 
 
 function setup() {
   createCanvas(WIDTH, HEIGHT, WEBGL);
@@ -291,8 +290,6 @@ function setup() {
     clr1Num = 100;
   }
 
-  ov = R.random_int(100, 500);
-
   setColorTables();
 }
 
@@ -301,9 +298,9 @@ function setup() {
   
   
 function draw() {
-  let _bg = clrB[floor((frameCount * 0.9 + clrB.length + bgCount) % clrB.length)]; 
+  let _bg = clrB[floor((frameCount * 0.5 + clrB.length + bgCount) % clrB.length)]; 
   background(_bg);
-  scale(0.7);
+  scale(0.9);
 
   let co = 0;
   let sw = 10;
@@ -313,101 +310,49 @@ function draw() {
   for (let gr = 0; gr < (1000 / 2) * M; gr += (1000 / (set_age * 2)) * M) {
     strokeWeight((co / 30) * M * set_ss);
     stroke(clrA[floor((int(sn) + frameCount * set_as/4) % clrA.length)]);
-    // fill(clrB[floor((int(sn) + frameCount * set_as/4) % clrB.length)]);
-    fill(255)
+
     push();
     rotate(PI / 2);
     translate((1000 / 20) * M, (-1000 / 20) * M);
     beginShape();
-    for (let a = 0; a < PI; a += radians(3)) {
+    for (let a = 0; a < PI; a += radians(2)) {
       let xoff = map(cos(a), -1, 1, 0, set_mov);
       let yoff = map(sin(a), -1, 1, 0, set_mov);
 
-      const r = map(1 / sin(a), -1, 1, 0, ri * 2) + map(noise(xoff, yoff, zoff), 0, 1, 0, gr * set_mul) + noise(gr+zoff)*ov;
+      const r = map(1 / sin(a), -1, 1, 0, ri * 2) + map(noise(xoff, yoff, zoff), 0, 1, 0, gr * set_mul);
 
       let x = r * cos(a);
       let y = r * sin(a);
 
       vertex(x, y);
-      ellipse(x,y,6*noise(zoff)*M);
     }
     endShape();
-
-    // push();
-    // rotate(PI);
-    // translate(0, (-1000 / 10) * M);
-    // // beginShape();
-    // for (let a = 0; a < PI; a += radians(5)) {
-    //   let xoff = map(sin(a), -1, 1, 0, set_mov);
-    //   let yoff = map(sin(a), -1, 1, 0, set_mov);
-
-    //   const r = map(1 / sin(a), -1, 1, 0, ri * 2) + map(noise(xoff, yoff, zoff+10), 0, 1, 0, gr * set_mul) + noise(gr+zoff)*ov;
-
-    //   let x = r * cos(a);
-    //   let y = r * sin(a);
-    //     // stroke(0);
-    //     strokeWeight(0);
-    //     // translate(x,y)
-    //   ellipse(x,y,10*M);
-    // //   line(x,y,x+20*M, y);
-    // }
-    // // endShape();
-    // pop();
-
-    
 
     push();
     rotate(PI);
     translate(0, (-1000 / 10) * M);
     beginShape();
-    for (let a = 0; a < PI; a += radians(3)) {
+    for (let a = 0; a < PI; a += radians(2)) {
       let xoff = map(sin(a), -1, 1, 0, set_mov);
       let yoff = map(sin(a), -1, 1, 0, set_mov);
 
-      const r = map(1 / sin(a), -1, 1, 0, ri * 2) + map(noise(xoff, yoff, zoff), 0, 1, 0, gr * set_mul) + noise(gr+zoff)*ov;
+      const r = map(1 / sin(a), -1, 1, 0, ri * 2) + map(noise(xoff, yoff, zoff), 0, 1, 0, gr * set_mul);
 
       let x = r * cos(a);
       let y = r * sin(a);
 
       vertex(x, y);
-
-      ellipse(x,y,6*noise(zoff)*M);
-    //   line(x,y,x+20*M, y);
     }
     endShape();
     pop();
-
-    // push();
-    // rotate(PI);
-    // translate(0, (-1000 / 10) * M);
-    // // beginShape();
-    // for (let a = 0; a < PI; a += radians(5)) {
-    //   let xoff = map(sin(a), -1, 1, 0, set_mov);
-    //   let yoff = map(sin(a), -1, 1, 0, set_mov);
-
-    //   const r = map(1 / sin(a), -1, 1, 0, ri * 2) + map(noise(xoff, yoff, zoff+10), 0, 1, 0, gr * set_mul) + noise(gr+zoff)*ov;
-
-    //   let x = r * cos(a);
-    //   let y = r * sin(a);
-    //     // stroke(0);
-    //     strokeWeight(0);
-    //     // translate(x,y)
-    //   ellipse(x,y,5*M);
-    // //   line(x,y,x+20*M, y);
-    // }
-    // // endShape();
-    // pop();
-
     pop();
 
-    zoff += 0.0001;
+    zoff += 0.0002;
     ri += 0.1;
     co++;
     if (sn == clr1Num - 1) sn = 0;
     else sn++;
   }
-
-  console.log(frameRate());
 }
 
 function setColorTables() {
