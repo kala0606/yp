@@ -60,7 +60,7 @@ class Random {
 let R = new Random(seed);
 
 var DEFAULT_SIZE = 1000;
-var WIDTH = 0.707*window.innerHeight;
+var WIDTH = window.innerWidth;
 var HEIGHT = window.innerHeight;
 var DIM = Math.min(WIDTH, HEIGHT);
 var M = DIM / DEFAULT_SIZE;
@@ -314,7 +314,7 @@ function setup() {
 function draw() {
   // let _bg = clrB[floor((frameCount * 0.5 + clrB.length + bgCount) % clrB.length)]; 
   // background(_bg);
-  scale(frameCount/50);
+  scale(frameCount/100);
   noFill();
 
   let co = 0;
@@ -341,6 +341,8 @@ function draw() {
 
       let x = r * cos(a);
       let y = r * sin(a);
+
+      // line(x, y, x +10*M, y);
 
       vertex(x, y);
 
@@ -369,6 +371,7 @@ function draw() {
 
       let x = r * cos(a);
       let y = r * sin(a);
+      // ellipse(x, y, r/100*M);
 
       vertex(x, y);
 
