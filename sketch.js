@@ -117,6 +117,7 @@ let zoff = 0;
 function setup() {
   createCanvas(WIDTH, HEIGHT, WEBGL);
   noiseSeed(seed);
+  pixelDensity(1)
   // ri = (1000 / 22) * M;
 
   whichColor = R.random_int(0, 14);
