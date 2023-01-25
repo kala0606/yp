@@ -112,10 +112,12 @@ let set_ss;    //stroke size
 let set_as;    //animation speed
 
 let zoff = 0;
+// let ri;
 
 function setup() {
   createCanvas(WIDTH, HEIGHT, WEBGL);
   noiseSeed(seed);
+  // ri = (1000 / 22) * M;
 
   whichColor = R.random_int(0, 14);
 
@@ -136,6 +138,7 @@ function setup() {
   else whichClr = clr14;
 
   whichSet = R.random_int(1, 90);
+  // whichSet = 11;
   whichSet_mov = R.random_int(1, 100);
   whichSet_age = R.random_int(1, 100);
   whichSet_mul = R.random_int(1, 100);
@@ -291,6 +294,16 @@ function setup() {
   }
 
   setColorTables();
+
+  let _bg = clrB[floor((clrB.length + bgCount) % clrB.length)]; 
+  background(_bg);
+
+  console.log("set_mov", set_mov )
+  console.log("age", set_age )
+  console.log("set_mul", set_mul )
+  console.log("set_ss", set_ss )
+  console.log("set_as", set_as )
+
 }
 
 
@@ -298,22 +311,25 @@ function setup() {
   
   
 function draw() {
-  let _bg = clrB[floor((frameCount * 0.5 + clrB.length + bgCount) % clrB.length)]; 
-  background(_bg);
-  scale(0.9);
+  // let _bg = clrB[floor((frameCount * 0.5 + clrB.length + bgCount) % clrB.length)]; 
+  // background(_bg);
+  scale(frameCount/100);
 
   let co = 0;
   let sw = 10;
   let sn = int(set_age / 10);
-  let ri = (1000 / 22) * M;
+  // let ri = (1000 / 22) * M;
+  
 
-  for (let gr = 0; gr < (1000 / 2) * M; gr += (1000 / (set_age * 2)) * M) {
+  for (let gr = 0; gr < (1000 / 2) * M; gr += (2000 / (set_age * 2)) * M) {
     strokeWeight((co / 30) * M * set_ss);
     stroke(clrA[floor((int(sn) + frameCount * set_as/4) % clrA.length)]);
+    let ri = (1000 / 22) * M;
 
     push();
     rotate(PI / 2);
-    translate((1000 / 20) * M, (-1000 / 20) * M);
+    // translate((1000 / 20) * M, (-1000 / 20) * M);
+    translate(0, (-1000 / 20) * M);
     beginShape();
     for (let a = 0; a < PI; a += radians(2)) {
       let xoff = map(cos(a), -1, 1, 0, set_mov);
@@ -325,34 +341,59 @@ function draw() {
       let y = r * sin(a);
 
       vertex(x, y);
+
+      // fill(0)
+      // push()
+      // translate(x,y, 0)
+      // line(x,y,x+10,y)
+      // sphere(r/80, 10, 10);
+      // pop()
+
     }
     endShape();
 
     push();
     rotate(PI);
+
+    // let ri2 = (1000 / 22) * M;
+
     translate(0, (-1000 / 10) * M);
     beginShape();
     for (let a = 0; a < PI; a += radians(2)) {
       let xoff = map(sin(a), -1, 1, 0, set_mov);
       let yoff = map(sin(a), -1, 1, 0, set_mov);
 
-      const r = map(1 / sin(a), -1, 1, 0, ri * 2) + map(noise(xoff, yoff, zoff), 0, 1, 0, gr * set_mul);
+      const r = map(1 / sin(a), -1, 1, 0, ri* 2) + map(noise(xoff, yoff, zoff), 0, 1, 0, gr * set_mul);
 
       let x = r * cos(a);
       let y = r * sin(a);
 
       vertex(x, y);
+
+      
     }
     endShape();
     pop();
     pop();
+
+    // ri-=10*M;
+    
+    if(frameCount > 300) {
+      console.log("stop now")
+      noLoop();
+    }
 
     zoff += 0.0002;
     ri += 0.1;
     co++;
     if (sn == clr1Num - 1) sn = 0;
     else sn++;
+
+    
   }
+
+  // ri-=1*M;
+
 }
 
 function setColorTables() {
