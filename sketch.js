@@ -60,7 +60,7 @@ class Random {
 let R = new Random(seed);
 
 var DEFAULT_SIZE = 1000;
-var WIDTH = window.innerWidth;
+var WIDTH = 0.707*window.innerHeight;
 var HEIGHT = window.innerHeight;
 var DIM = Math.min(WIDTH, HEIGHT);
 var M = DIM / DEFAULT_SIZE;
@@ -314,7 +314,7 @@ function setup() {
 function draw() {
   // let _bg = clrB[floor((frameCount * 0.5 + clrB.length + bgCount) % clrB.length)]; 
   // background(_bg);
-  scale(frameCount/100);
+  scale(frameCount/50);
   noFill();
 
   let co = 0;
