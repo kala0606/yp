@@ -315,6 +315,7 @@ function draw() {
   // let _bg = clrB[floor((frameCount * 0.5 + clrB.length + bgCount) % clrB.length)]; 
   // background(_bg);
   scale(frameCount/100);
+  noFill();
 
   let co = 0;
   let sw = 10;
