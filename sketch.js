@@ -117,7 +117,7 @@ let zoff = 0;
 function setup() {
   createCanvas(WIDTH, HEIGHT, WEBGL);
   noiseSeed(seed);
-  pixelDensity(1)
+  // pixelDensity(1)
   // ri = (1000 / 22) * M;
 
   whichColor = R.random_int(0, 14);
@@ -312,9 +312,11 @@ function setup() {
   
   
 function draw() {
-  // let _bg = clrB[floor((frameCount * 0.5 + clrB.length + bgCount) % clrB.length)]; 
+  let _bg = clrB[floor((frameCount * 0.5 + clrB.length + bgCount) % clrB.length)]; 
+  _bg.setAlpha(0.2);
+  
+  scale(1 + frameCount/100);
   // background(_bg);
-  scale(frameCount/100);
   noFill();
 
   let co = 0;
@@ -323,7 +325,7 @@ function draw() {
   // let ri = (1000 / 22) * M;
   
 
-  for (let gr = 0; gr < (1000 / 2) * M; gr += (2000 / (set_age * 2)) * M) {
+  for (let gr = 0; gr < (1000 / 2) * M; gr += (2000 / (set_age)) * M) {
     strokeWeight((co / 30) * M * set_ss);
     stroke(clrA[floor((int(sn) + frameCount * set_as/4) % clrA.length)]);
     let ri = (1000 / 22) * M;
@@ -388,7 +390,7 @@ function draw() {
       noLoop();
     }
 
-    zoff += 0.0002;
+    zoff += 0.0001;
     ri += 0.1;
     co++;
     if (sn == clr1Num - 1) sn = 0;
