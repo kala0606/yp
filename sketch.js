@@ -153,7 +153,7 @@ function setup() {
     set_mul = map(whichSet_mul, 1, 100, 1.0, 4.0);
     set_ss = map(whichSet_ss, 1, 100, 1, 5);
     set_as = map(whichSet_ss, 1, 100, 1, 2);
-    clr1Num = 12;
+    clr1Num = 50;
   } else if (whichSet >= 6 && whichSet <= 10) {
     // 6-10 / sym, mid, ribbed
     set_mov = map(whichSet_mov, 1, 100, 0, 0.1);
@@ -161,7 +161,7 @@ function setup() {
     set_mul = map(whichSet_mul, 1, 100, 1.0, 1.0);
     set_ss = map(whichSet_ss, 1, 100, 3, 5);
     set_as = map(whichSet_ss, 1, 100, 0.5, 1);
-    clr1Num = 12;
+    clr1Num = 70;
   } else if (whichSet >= 11 && whichSet <= 15) {
     // 11-15 / sym, young, ribbed
     set_mov = map(whichSet_mov, 1, 100, 0, 0.1);
@@ -169,7 +169,7 @@ function setup() {
     set_mul = map(whichSet_mul, 1, 100, 1.0, 1.0);
     set_ss = map(whichSet_ss, 1, 100, 10, 15);
     set_as = map(whichSet_ss, 1, 100, 0.1, 0.4);
-    clr1Num = 12;
+    clr1Num = 200;
   } else if (whichSet >= 16 && whichSet <= 20) {
     // 16-20 / sym, old, smooth
     set_mov = map(whichSet_mov, 1, 100, 0, 0.1);
@@ -203,7 +203,7 @@ function setup() {
     set_mul = map(whichSet_mul, 1, 100, 1.0, 2.0);
     set_ss = map(whichSet_ss, 1, 100, 2, 5);
     set_as = map(whichSet_ss, 1, 100, 1, 2);
-    clr1Num = 12;
+    clr1Num = 100;
   } else if (whichSet >= 36 && whichSet <= 40) {
     // 36-40 / Ssym, mid, ribbed
     set_mov = map(whichSet_mov, 1, 100, 0.5, 1.2);
@@ -211,7 +211,7 @@ function setup() {
     set_mul = map(whichSet_mul, 1, 100, 1.0, 1.0);
     set_ss = map(whichSet_ss, 1, 100, 3, 5);
     set_as = map(whichSet_ss, 1, 100, 1, 2);
-    clr1Num = 12;
+    clr1Num = 120;
   } else if (whichSet >= 41 && whichSet <= 45) {
     // 41-45 / Ssym, young, ribbed
     set_mov = map(whichSet_mov, 1, 100, 0.5, 1.2);
@@ -219,7 +219,7 @@ function setup() {
     set_mul = map(whichSet_mul, 1, 100, 1.0, 1.0);
     set_ss = map(whichSet_ss, 1, 100, 10, 15);
     set_as = map(whichSet_ss, 1, 100, 0.1, 0.4);
-    clr1Num = 12;
+    clr1Num = 120;
   } else if (whichSet >= 46 && whichSet <= 50) {
     // 46-50 / SSym, old, smooth
     set_mov = map(whichSet_mov, 1, 100, 0.5, 1.2);
@@ -251,7 +251,7 @@ function setup() {
     set_mul = map(whichSet_mul, 1, 100, 1.0, 2.0);
     set_ss = map(whichSet_ss, 1, 100, 2, 5);
     set_as = map(whichSet_ss, 1, 100, 1, 2);
-    clr1Num = 12;
+    clr1Num = 100;
   } else if (whichSet >= 66 && whichSet <= 70) {
     // 66-70 / Asym, mid, ribbed
     set_mov = map(whichSet_mov, 1, 100, 1.3, 2);
@@ -259,7 +259,7 @@ function setup() {
     set_mul = map(whichSet_mul, 1, 100, 1.0, 1.0);
     set_ss = map(whichSet_ss, 1, 100, 3, 5);
     set_as = map(whichSet_ss, 1, 100, 1, 2);
-    clr1Num = 12;
+    clr1Num = 50;
   } else if (whichSet >= 71 && whichSet <= 75) {
     // 71-75 / Asym, young, ribbed
     set_mov = map(whichSet_mov, 1, 100, 1.3, 2);
@@ -267,7 +267,7 @@ function setup() {
     set_mul = map(whichSet_mul, 1, 100, 1.0, 1.0);
     set_ss = map(whichSet_ss, 1, 100, 10, 15);
     set_as = map(whichSet_ss, 1, 100, 0.1, 0.3);
-    clr1Num = 12;
+    clr1Num = 50;
   } else if (whichSet >= 76 && whichSet <= 80) {
     // 76-80 / ASym, old, smooth
     set_mov = map(whichSet_mov, 1, 100, 1.3, 2);
